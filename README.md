@@ -23,5 +23,12 @@ The following are useful commands for working with the clusters.
 
 > `vagrant halt && vagrant delete` - This will stop and delete the vms. This would be necessary for clusters 2-4 when practicing Installing or updating kubernetes.
 
+> `vagrant ssh cluster1-master1` - This allows you to ssh into the vm specified. When inside the vm, the current folder is mounted as `/vagrant/` and the scripts can be access from that directory.
 
-** The folder also make use of [direnv](https://direnv.net/) to set the KUBECONFIG environment variable for whichever cluster you're currently working with
+** Troubleshooting **
+- Depending on the machine, I've occasionally seen issues with `clusterX-worker1` not being able to join the cluster because the `kube-apiserver` not being fully functional when the join command was executed on the worker. If this occurs, you can wait until `k get nodes` shows a `Ready` status for the `clusterX-master1` node.  The, `vagrant ssh clusterX-worker1` and run the join script using `sudo /vagrant/scripts/kubeadm-join.sh`
+
+
+
+
+** The project makes use of [direnv](https://direnv.net/) to set the KUBECONFIG environment variable for whichever cluster you're currently working with. If you don't have that installed, you can source the `.envrc` file manually.
